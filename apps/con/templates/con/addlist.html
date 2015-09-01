@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+{% load staticfiles%}
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="{% static "components/webcomponentsjs/webcomponents.js"%}"></script>
+    <link rel="import" href="{% static "components/paper-toolbar/paper-toolbar.html"%}">
+    <link rel="import" href="{% static "components/paper-header-panel/paper-header-panel.html"%}">
+    <link rel="import" href="{% static "components/paper-fab/paper-fab.html"%}">
+    <link rel="import" href="{% static "components/paper-dialog/paper-dialog.html"%}">
+    <link rel="import" href="{% static "custom/din-list.html"%}">
+    <link rel="import" href="{% static "custom/add-din.html"%}">
+    <link rel="stylesheet" href="{% static "css/style.css" %}">
+    </script>
+    <title>icon</title>
+  </head>
+<style>
+  .container{
+      @apply(--layout-horizontal);
+      @apply(--layout-center-justified);
+  }
+  add-din{
+    width:45rem;
+  }
+</style>
+
+
+  <body class="fullbleed layout vertical">
+  <paper-header-panel class="flex">
+    <paper-toolbar>
+      <paper-button > <a href="/index"  style="color: white;"> Mcon </a> </paper-button>
+      
+    </paper-toolbar>
+    
+    {%for %}
+   <!-- <add-din class="flex  layout vertical"></add-din> -->
+            
+   <form method="post" action="/addDin">
+    <input name="listname" type="text">
+    <input name="enddate" type="date">
+    <input type="submit">
+   </form>
+    
+  </paper-header-panel>
+      
+      <script>
+        
+        function dinLog() {
+          //code
+        
+        //var id = button.getAttribute('data-dialog');
+      var dialog = document.getElementById("dinlog");
+      if (dialog) {
+        dialog.open();
+      }
+        }
+        
+       
+        
+      </script>
+      
+      
+  </body>
+</html>

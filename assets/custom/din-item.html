@@ -1,0 +1,96 @@
+<link rel="import" href="../components/polymer/polymer.html">
+<link rel="import" href="../components/google-map/google-map.html">
+<link rel="import" href="../components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../components/paper-item/paper-item.html">
+<link rel="import" href="../components/paper-menu/paper-menu.html">
+<link rel="import" href="../components/paper-card/paper-card.html">
+<link rel="import" href="../components/paper-button/paper-button.html">
+<link rel="import" href="../components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../components/iron-icons/iron-icons.html">
+<link rel="import" href="../components/paper-badge/paper-badge.html">
+
+<dom-module id="din-item">
+  <style media="screen">
+    paper-card{
+      //height:auto;
+      width:20rem;
+    }
+  </style>
+
+  <template>
+     <iron-ajax
+                id="Dellist"
+                method="DELETE"
+                contentType="application/json"
+                
+                handle-as="json" >
+            
+      </iron-ajax>
+     
+ <paper-card  elevation=3 >
+      
+      <div class="card-content" >
+        
+        <paper-icon-button icon="clear"  on-click="deletdial" style="margin-left: 15rem; "></paper-icon-button>
+        
+              <h1>{{din.name}}</h1>
+              <p>Inicío: <span>{{din.inicial}}</span></p>
+              <p>Fim: <span>{{din.fim}}</span></p>
+              <p>itens:  <span>{{din.nItem}}</span> </p>
+              <p>Total R$ <span>{{din.total}}</span></p>
+             
+          
+        <div class="card-actions">
+          <iron-icon icon="star" hidden$={{!starred}}></iron-icon>
+              <paper-button ><a href="{{url}}">View list</a></paper-button>
+        </div>
+          
+      </div>
+    </paper-card>
+ 
+            <paper-dialog id="dinlog" style="width: auto; height: auto;">
+                <p>Do you really want to delete this list ?</p>
+               <div class="buttons">
+                  <paper-button dialog-confirm on-click="deletList">Delete</paper-button>
+                  <paper-button dialog-dismiss>Cancel</paper-button>
+              </div>
+            </paper-dialog>
+ 
+</template>
+</dom-module>
+
+<script>
+Polymer({
+  is:'din-item',
+  ready:function(){
+      //console.log(this.din.pk);
+      this.url ="/detail/"+this.din.pk;
+      
+    },
+    deletdial:function(){
+      var dialog = document.getElementById("dinlog");
+      if (dialog) {
+        dialog.open();
+      }
+    },
+    deletList:function(){
+        this.$.Dellist.url="/dellist/"+this.din.pk;
+        this.$.Dellist.generateRequest();
+        window.location.href = "/index";
+    },
+  properties: {
+        starred:{
+          type:Boolean,
+          value:null
+        },
+        din:Object
+      },
+      
+     url:{
+      type:String,
+      value:""
+     }
+});
+
+</script>

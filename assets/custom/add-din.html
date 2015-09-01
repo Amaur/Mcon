@@ -1,0 +1,117 @@
+<link rel="import" href="/static/components/polymer/polymer.html">
+<link rel="import" href="/static/components/iron-ajax/iron-ajax.html">
+<link rel="import" href="/static/components/paper-input/paper-input.html">
+<link rel="import" href="/static/components/paper-button/paper-button.html">
+<link rel="import" href="../components/paper-button/paper-button.html">
+<link rel="import" href="../components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../components/iron-form/iron-form.html">
+<link rel="import" href="../components/paper-toast/paper-toast.html">
+
+<dom-module id="add-din">
+
+    <template>
+        <style>
+            #loginBut {
+                background: #4285f4;
+                color: #fff;
+                //padding: 5px 5px;
+                margin-right: 5px;
+                margin-bottom: 5px;
+            }
+            .error {
+                color:red;
+            }
+            paper-card{
+                margin-bottom: 5px;
+                width: 250px; height: auto;
+            }
+            
+        </style>
+        
+      <iron-ajax
+                id="Addlist"
+                method="POST"
+                contentType="application/json"
+                url="/addDin"
+                on-response="DinResponse"
+                handle-as="json" >
+            
+      </iron-ajax>
+      <!--'{"listname":"{{ listname }}", "enddate":"{{ enddate }}"}' 
+        <template repeat="{{ error in response.errors }}">
+            <span class="error">{{ error.message }}</span>
+            <br>
+        </template>-->
+        
+        <paper-card >
+           
+        <paper-input label="List name" name="listname" id="listname" floatingLabel value="{{ listname }}"></paper-input>
+        
+        <paper-input type="date" name="enddate" id="enddate" floatingLabel value="{{ enddate }}"></paper-input>
+        
+        <br>
+        <paper-button  raisedButton name="addlist" id="loginBut" on-tap="submit">Submit</paper-button>
+        
+            
+        </paper-card>
+        
+        
+    </template>
+</dom-module>
+    
+
+    <script>
+        Polymer({ is:'add-din',
+                
+                submit: function() {
+                    //this.$.Addlist.body=JSON.stringify(entry);
+                    console.log(this.listname);
+                    console.log(this.enddate);
+                    var datalist = JSON.stringify({listname: this.listname, enddate:this.enddate});
+                    console.log(datalist);
+                    this.$.Addlist.body=datalist;
+                    this.$.Addlist.generateRequest();
+                    console.log(this.$.Addlist.body)
+                },
+                DinResponse: function(r) {
+                    console.log(r.detail.response);
+                    res = r.detail.response;
+                    if (res) {
+                        window.location.href = "/index";
+                    }
+                    //console.log(res.added);
+                  /*  if (res.added) {
+                        document.querySelector('#toast2').show();
+                    }else{
+                        document.querySelector('#toast2').show();
+                    }*/
+                },
+            processBody: function(listname, enddate) {
+                return JSON.stringify({listname: listname, enddate:enddate});
+            },
+            register: function () {
+                //if (this.response.registered) {
+                  //  window.location.href = "/index";
+                //}
+            },
+                
+               properties: {
+                    listname:{
+                        type:String,
+                        value:null,
+                        notify:true  
+                    },
+                    enddate:{
+                        type:String,
+                        value:null,
+                        notify:true  
+                    },
+                    ajaxBody: {
+                    type: String,
+                    computed: 'processBody(listname, enddate)'
+                    },
+            
+            
+               }
+        });
+    </script>

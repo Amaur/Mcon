@@ -1,0 +1,88 @@
+<link rel="import" href="../components/polymer/polymer.html">
+<link rel="import" href="../components/google-map/google-map.html">
+<link rel="import" href="../components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../components/paper-item/paper-item.html">
+<link rel="import" href="../components/paper-menu/paper-menu.html">
+<link rel="import" href="../components/paper-card/paper-card.html">
+<link rel="import" href="../components/paper-button/paper-button.html">
+<link rel="import" href="../components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="din-item.html">
+<link  rel="stylesheet"type="css" href="../css/bootstrap.css">
+
+<dom-module id="din-list">
+  <style media="screen">
+   
+  </style>
+
+      
+
+
+  <template >
+
+        
+    <iron-ajax
+                id="Addlist"
+                method="get"
+                contentType="application/json"
+                url="/dinarlist"
+                auto
+                on-response="ListResponse"
+                last-response="{{data}}"
+                handle-as="json" >
+            
+      </iron-ajax>
+
+    <div class="container-fluid">
+        <div class="row">
+          <p>Lista feitas...</p>
+                
+            <template is="dom-repeat" items="{{data}}" as="din">
+                <div class="col-md-4">
+                  <din-item class="flex self-center " style="margin-top: 2rem;" din="{{din}}" starred={{din.isActive}} ></din-item>
+                </div>
+      
+            </template>
+      </div>
+    </div>
+        
+    
+</template> 
+     
+        
+</dom-module>
+
+<script>
+Polymer({
+  is:'din-list',
+  
+  ListResponse:function(r){
+      console.log(r.detail.response);
+      res = r.detail.response;
+      return res;
+  },
+  detail: function () {
+                var id = document.getElementById("itemId")
+                console.log(id.value);
+                this.itemId = id.value;
+                   window.location.href = "/detail/"+this.itemId;
+               //<a href="/detail+{{din.pk}}">
+            },
+ 
+  properties:{
+     /* data:{
+        type:Object,
+        value:this.ListResponse,
+      },*/
+     itemId:{
+      type:String,
+      value:null
+     }
+    
+  }
+  
+  
+  
+});
+
+</script>

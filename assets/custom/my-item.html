@@ -1,0 +1,99 @@
+<link rel="import" href="../components/polymer/polymer.html">
+<link rel="import" href="../components/google-map/google-map.html">
+<link rel="import" href="../components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../components/paper-item/paper-item.html">
+<link rel="import" href="../components/paper-menu/paper-menu.html">
+<link rel="import" href="../components/paper-card/paper-card.html">
+<link rel="import" href="../components/paper-button/paper-button.html">
+<link rel="import" href="../components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../components/iron-icon/iron-icon.html">
+<link rel="import" href="../components/paper-badge/paper-badge.html">
+
+<dom-module id="my-item">
+  <style media="screen">
+    paper-card{
+      //height:auto;
+      width:20rem;
+    }
+  </style>
+
+  <template>
+    
+   <iron-ajax
+                id="Delitem"
+                method="DELETE"
+                contentType="application/json"
+                
+                handle-as="json" >
+            
+      </iron-ajax>
+   
+ <paper-card  elevation=3 >
+      
+      <div class="card-content" >
+        <iron-icon icon="star" hidden$={{!starred}}></iron-icon>
+      <!--  <paper-icon-button icon="clear"  on-click="deletdial"></paper-icon-button> -->
+              <h1>{{ite.name}}</h1>
+              
+              <p>added date: <span>{{ite.date}}</span></p>
+              <p>added time: <span>{{ite.time}}</span></p>
+              <p>N°:  <span>{{ite.nbr}}</span> </p>
+              <p>Price U R$ <span>{{ite.price}}</span></p>
+              <p>Price Tot R$ <span>{{ite.total}}</span></p>
+             
+          
+        <div class="card-actions">
+              <paper-button  on-click="deletdial" >Delete </paper-button>
+        </div>
+          
+      </div>
+    </paper-card>
+   
+        <paper-dialog id="dinlog" style="width: auto; height: auto;">
+                <p>Do you really want to delete this item ?</p>
+               <div class="buttons">
+                  <paper-button dialog-confirm on-click="deletItem">Delete</paper-button>
+                  <paper-button dialog-dismiss>Cancel</paper-button>
+              </div>
+            </paper-dialog>
+   
+   
+</template>
+</dom-module>
+
+<script>
+Polymer({
+  is:'my-item',
+  ready:function(){
+      //console.log(this.din.pk);
+      //this.url ="/detail/"+this.ite.pk;
+      
+    },
+    deletdial:function(){
+      var dialog = document.getElementById("dinlog");
+      if (dialog) {
+        dialog.open();
+      }
+    },
+    deletItem:function(){
+        this.$.Delitem.url="/delitem/"+this.ite.pk;
+        this.$.Delitem.generateRequest();
+        //window.location.href = ;
+    },
+    
+  properties: {
+        starred:{
+          type:Boolean,
+          value:null
+        },
+        ite:Object
+      },
+      
+     url:{
+      type:String,
+      value:""
+     }
+});
+
+</script>

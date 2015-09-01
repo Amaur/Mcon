@@ -1,0 +1,96 @@
+<link rel="import" href="../components/polymer/polymer.html">
+<link rel="import" href="../components/google-map/google-map.html">
+<link rel="import" href="../components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../components/paper-item/paper-item.html">
+<link rel="import" href="../components/paper-menu/paper-menu.html">
+<link rel="import" href="../components/paper-card/paper-card.html">
+<link rel="import" href="../components/paper-button/paper-button.html">
+<link rel="import" href="../components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="my-item.html">
+<link  rel="stylesheet"type="css" href="../css/bootstrap.css">
+
+<dom-module id="item-list">
+  <style media="screen">
+   
+  </style>
+
+      
+
+
+  <template >
+    
+    <iron-ajax
+                id="itemlist"
+                method="get"
+                contentType="application/json"
+                
+                auto
+                on-response="ListResponse"
+                last-response="{{data}}"
+                handle-as="json" >
+            
+      </iron-ajax>
+  
+    
+    <div class="vertical layout center">
+      
+ 
+    <div class="container-fluid">
+        <div class="row">
+      
+    <template is="dom-repeat" items="{{data}}" as="ite">
+     
+      
+       <my-item class="flex self-center " style="margin-top: 2rem;" pk={{ite.pk}} ite="{{ite}}" starred={{ite.isExcept}}>
+        
+        </my-item>  
+    </template>
+    
+        </div>
+    </div>
+        </div>
+    
+</template> 
+     
+        
+</dom-module>
+
+<script>
+Polymer({
+  is:'item-list',
+  ready:function(){
+      this.$.itemlist.url="/dindetail/"+this.pk;
+      //this.$itemlist.generateRequest();
+    },
+  ListResponse:function(r){
+      console.log(r.detail.response);
+      res = r.detail.response;
+      return res;
+  },
+  detail: function () {
+    
+                console.log(this.pk);
+                this.itemId = id.value;
+                   window.location.href = "/detail/"+this.itemId;
+               //<a href="/detail+{{din.pk}}">
+            },
+ 
+  properties:{
+     /* data:{
+        type:Object,
+        value:this.ListResponse,
+      },*/
+     pk:{
+      type:String,
+      value:"",
+      reflectToAttribute: true
+     }
+    
+  }
+  
+  
+  
+});
+
+</script>
